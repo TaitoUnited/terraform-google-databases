@@ -15,12 +15,44 @@
  */
 
 variable "postgresql_clusters" {
-  type        = any
+  type = list(object({
+    name = string
+    region = string
+    zone = string
+    version = string
+    tier = string
+    maintenanceDay = number
+    maintenanceHour = number
+    backupStartTime = string
+    pointInTimeRecoveryEnabled = bool
+    highAvailabilityEnabled = bool
+    publicIpEnabled = bool
+    authorizedNetworks = list(string)
+    flags = any
+    adminUsername = string
+  }))
+  default = []
   description = "Resources as JSON (see README.md). You can read values from a YAML file with yamldecode()."
 }
 
 variable "mysql_clusters" {
-  type        = any
+  type = list(object({
+    name = string
+    region = string
+    zone = string
+    version = string
+    tier = string
+    maintenanceDay = number
+    maintenanceHour = number
+    backupStartTime = string
+    pointInTimeRecoveryEnabled = bool
+    highAvailabilityEnabled = bool
+    publicIpEnabled = bool
+    authorizedNetworks = list(string)
+    # flags = any
+    adminUsername = string
+  }))
+  default = []
   description = "Resources as JSON (see README.md). You can read values from a YAML file with yamldecode()."
 }
 
