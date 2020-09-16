@@ -28,12 +28,12 @@ module "databases" {
 Example YAML:
 
 ```
-postgresClusters:
+postgresqlClusters:
   - name: my-common-postgres
     region: europe-west1
     zone: europe-west1b
-    version: POSTGRES_11
-    tier: db-f1-micro
+    version: POSTGRES_12
+    tier: db-n1-standard-1
     maintenanceDay: 2
     maintenanceHour: 2
     backupStartTime: 05:00
@@ -50,8 +50,8 @@ mysqlClusters:
   - name: my-common-mysql
     region: europe-west1
     zone: europe-west1b
-    version: MYSQL_5_7
-    tier: db-f1-micro
+    version: MYSQL_8_0
+    tier: db-n1-standard-1
     maintenanceDay: 2
     maintenanceHour: 2
     backupStartTime: 05:00
