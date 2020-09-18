@@ -38,7 +38,7 @@ resource "google_sql_database_instance" "mysql" {
       require_ssl     = "true"
 
       dynamic "authorized_networks" {
-        for_each = local.mysqlClusters[count.index].authorizedNetworks
+        for_each = local.mysqlClusters[count.index].authorizedNetworks != null ? local.mysqlClusters[count.index].authorizedNetworks : []
         content {
           value = authorized_networks.value
         }

@@ -38,7 +38,7 @@ resource "google_sql_database_instance" "postgres" {
       require_ssl     = "true"
 
       dynamic "authorized_networks" {
-        for_each = local.postgresqlClusters[count.index].authorizedNetworks
+        for_each = local.postgresqlClusters[count.index].authorizedNetworks != null ? local.postgresqlClusters[count.index].authorizedNetworks : []
         content {
           value = authorized_networks.value
         }
