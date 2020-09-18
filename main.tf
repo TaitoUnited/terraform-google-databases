@@ -15,7 +15,6 @@
  */
 
 locals {
-
   postgresqlClusters = try(
     var.postgresql_clusters != null
     ? var.postgresql_clusters
@@ -29,5 +28,4 @@ locals {
     : [],
     []
   )
-
 }

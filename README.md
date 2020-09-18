@@ -16,7 +16,6 @@ resource "google_project_service" "compute" {
 module "databases" {
   source              = "TaitoUnited/databases/google"
   version             = "1.0.0"
-  providers           = [ google ]
   depends_on          = [ google_project_service.compute ]
 
   postgresql_clusters = yamldecode(file("${path.root}/../infra.yaml"))["postgresqlClusters"]
@@ -72,6 +71,7 @@ Combine with the following modules to get a complete infrastructure defined by Y
 - [Databases](https://registry.terraform.io/modules/TaitoUnited/databases/google)
 - [Storage](https://registry.terraform.io/modules/TaitoUnited/storage/google)
 - [Monitoring](https://registry.terraform.io/modules/TaitoUnited/monitoring/google)
+- [Events](https://registry.terraform.io/modules/TaitoUnited/events/google)
 - [PostgreSQL privileges](https://registry.terraform.io/modules/TaitoUnited/privileges/postgresql)
 - [MySQL privileges](https://registry.terraform.io/modules/TaitoUnited/privileges/mysql)
 
