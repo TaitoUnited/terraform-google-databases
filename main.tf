@@ -15,17 +15,15 @@
  */
 
 locals {
-  postgresqlClusters = try(
+  postgresqlClusters = (
     var.postgresql_clusters != null
     ? var.postgresql_clusters
-    : [],
-    []
+    : []
   )
 
-  mysqlClusters = try(
+  mysqlClusters = (
     var.mysql_clusters != null
     ? var.mysql_clusters
-    : [],
-    []
+    : []
   )
 }

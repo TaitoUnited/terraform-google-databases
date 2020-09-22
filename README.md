@@ -32,7 +32,7 @@ postgresqlClusters:
     region: europe-west1
     zone: europe-west1b
     version: POSTGRES_12
-    tier: db-n1-standard-1
+    tier: db-custom-1-3840
     maintenanceDay: 2
     maintenanceHour: 2
     backupStartTime: 05:00
@@ -50,7 +50,7 @@ mysqlClusters:
     region: europe-west1
     zone: europe-west1b
     version: MYSQL_8_0
-    tier: db-n1-standard-1
+    tier: db-custom-1-3840
     maintenanceDay: 2
     maintenanceHour: 2
     backupStartTime: 05:00
@@ -75,8 +75,6 @@ Combine with the following modules to get a complete infrastructure defined by Y
 - [PostgreSQL privileges](https://registry.terraform.io/modules/TaitoUnited/privileges/postgresql)
 - [MySQL privileges](https://registry.terraform.io/modules/TaitoUnited/privileges/mysql)
 
-TIP: Similar modules are also available for AWS, Azure, and DigitalOcean. All modules are used by [infrastructure templates](https://taitounited.github.io/taito-cli/templates#infrastructure-templates) of [Taito CLI](https://taitounited.github.io/taito-cli/).
-
-See also [Google Cloud project resources](https://registry.terraform.io/modules/TaitoUnited/project-resources/google), [Full Stack Helm Chart](https://github.com/TaitoUnited/taito-charts/blob/master/full-stack), and [full-stack-template](https://github.com/TaitoUnited/full-stack-template).
+TIP: Similar modules are also available for AWS, Azure, and DigitalOcean. All modules are used by [infrastructure templates](https://taitounited.github.io/taito-cli/templates#infrastructure-templates) of [Taito CLI](https://taitounited.github.io/taito-cli/). See also [Google Cloud project resources](https://registry.terraform.io/modules/TaitoUnited/project-resources/google), [Full Stack Helm Chart](https://github.com/TaitoUnited/taito-charts/blob/master/full-stack), and [full-stack-template](https://github.com/TaitoUnited/full-stack-template).
 
 Contributions are welcome!
