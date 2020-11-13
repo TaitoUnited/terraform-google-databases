@@ -18,27 +18,27 @@ resource "google_sql_database_instance" "mysql" {
   # TODO: not required?
   # depends_on = [google_service_networking_connection.private_vpc_connection]
 
-  count = length(local.mysqlClusters)
-  name  = local.mysqlClusters[count.index].name
+  for_each = {for item in local.mysqlClusters: item.name => item}
+  name     = each.value.name
 
-  database_version = local.mysqlClusters[count.index].version
-  region           = local.mysqlClusters[count.index].region
+  database_version = each.value.version
+  region           = each.value.region
 
   settings {
-    tier              = local.mysqlClusters[count.index].tier
-    availability_type = local.postgresqlClusters[count.index].highAvailabilityEnabled ? "REGIONAL" : "ZONAL"
+    tier              = each.value.tier
+    availability_type = each.value.highAvailabilityEnabled ? "REGIONAL" : "ZONAL"
 
     location_preference {
-      zone = local.mysqlClusters[count.index].zone
+      zone = each.value.zone
     }
 
     ip_configuration {
-      ipv4_enabled    = local.mysqlClusters[count.index].publicIpEnabled
+      ipv4_enabled    = each.value.publicIpEnabled
       private_network = var.private_network_id
       require_ssl     = "true"
 
       dynamic "authorized_networks" {
-        for_each = local.mysqlClusters[count.index].authorizedNetworks != null ? local.mysqlClusters[count.index].authorizedNetworks : []
+        for_each = each.value.authorizedNetworks != null ? each.value.authorizedNetworks : []
         content {
           value = authorized_networks.value
         }
@@ -46,16 +46,16 @@ resource "google_sql_database_instance" "mysql" {
     }
 
     maintenance_window {
-      day          = local.mysqlClusters[count.index].maintenanceDay
-      hour         = local.mysqlClusters[count.index].maintenanceHour
+      day          = each.value.maintenanceDay
+      hour         = each.value.maintenanceHour
       update_track = "stable"
     }
 
     backup_configuration {
       enabled            = "true"
       binary_log_enabled = "true"
-      start_time = local.mysqlClusters[count.index].backupStartTime
-      point_in_time_recovery_enabled = local.mysqlClusters[count.index].pointInTimeRecoveryEnabled
+      start_time = each.value.backupStartTime
+      point_in_time_recovery_enabled = each.value.pointInTimeRecoveryEnabled
     }
   }
 
@@ -65,22 +65,22 @@ resource "google_sql_database_instance" "mysql" {
 }
 
 resource "random_string" "mysql_admin_password" {
-  count    = length(local.mysqlClusters)
+  for_each = {for item in local.mysqlClusters: item.name => item}
 
-  length  = 32
-  special = false
-  upper   = true
+  length   = 32
+  special  = false
+  upper    = true
 
   keepers = {
-    mysql_instance = local.mysqlClusters[count.index].name
-    mysql_admin    = local.mysqlClusters[count.index].adminUsername
+    mysql_instance = each.value.name
+    mysql_admin    = each.value.adminUsername
   }
 }
 
 resource "google_sql_user" "mysql_admin" {
-  count    = length(local.mysqlClusters)
-  name     = local.mysqlClusters[count.index].adminUsername
+  for_each = {for item in local.mysqlClusters: item.name => item}
+  name     = each.value.adminUsername
   host     = "%"
-  instance = google_sql_database_instance.mysql[count.index].name
-  password = random_string.mysql_admin_password[count.index].result
+  instance = google_sql_database_instance.mysql[each.key].name
+  password = random_string.mysql_admin_password[each.key].result
 }

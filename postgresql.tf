@@ -18,27 +18,27 @@ resource "google_sql_database_instance" "postgres" {
   # TODO: not required?
   # depends_on = [google_service_networking_connection.private_vpc_connection]
 
-  count = length(local.postgresqlClusters)
-  name  = local.postgresqlClusters[count.index].name
+  for_each = {for item in local.postgresqlClusters: item.name => item}
+  name     = each.value.name
 
-  database_version = local.postgresqlClusters[count.index].version
-  region           = local.postgresqlClusters[count.index].region
+  database_version = each.value.version
+  region           = each.value.region
 
   settings {
-    tier              = local.postgresqlClusters[count.index].tier
-    availability_type = local.postgresqlClusters[count.index].highAvailabilityEnabled ? "REGIONAL" : "ZONAL"
+    tier              = each.value.tier
+    availability_type = each.value.highAvailabilityEnabled ? "REGIONAL" : "ZONAL"
 
     location_preference {
-      zone = local.postgresqlClusters[count.index].zone
+      zone = each.value.zone
     }
 
     ip_configuration {
-      ipv4_enabled    = local.postgresqlClusters[count.index].publicIpEnabled ? true : false
+      ipv4_enabled    = each.value.publicIpEnabled ? true : false
       private_network = var.private_network_id
       require_ssl     = "true"
 
       dynamic "authorized_networks" {
-        for_each = local.postgresqlClusters[count.index].authorizedNetworks != null ? local.postgresqlClusters[count.index].authorizedNetworks : []
+        for_each = each.value.authorizedNetworks != null ? each.value.authorizedNetworks : []
         content {
           value = authorized_networks.value
         }
@@ -46,7 +46,7 @@ resource "google_sql_database_instance" "postgres" {
     }
 
     dynamic "database_flags" {
-      for_each = local.postgresqlClusters[count.index].flags
+      for_each = each.value.flags
       content {
         name                = database_flags.key
         value               = database_flags.value
@@ -54,15 +54,15 @@ resource "google_sql_database_instance" "postgres" {
     }
 
     maintenance_window {
-      day          = local.postgresqlClusters[count.index].maintenanceDay
-      hour         = local.postgresqlClusters[count.index].maintenanceHour
+      day          = each.value.maintenanceDay
+      hour         = each.value.maintenanceHour
       update_track = "stable"
     }
 
     backup_configuration {
       enabled    = "true"
-      start_time = local.postgresqlClusters[count.index].backupStartTime
-      point_in_time_recovery_enabled = local.postgresqlClusters[count.index].pointInTimeRecoveryEnabled
+      start_time = each.value.backupStartTime
+      point_in_time_recovery_enabled = each.value.pointInTimeRecoveryEnabled
     }
   }
 

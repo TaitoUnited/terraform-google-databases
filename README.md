@@ -6,7 +6,7 @@ Example usage:
 provider "google" {
   project             = "my-infrastructure"
   region              = "europe-west1"
-  zone                = "europe-west1b"
+  zone                = "europe-west1-b"
 }
 
 resource "google_project_service" "compute" {
@@ -30,7 +30,7 @@ Example YAML:
 postgresqlClusters:
   - name: my-common-postgres
     region: europe-west1
-    zone: europe-west1b
+    zone: europe-west1-b
     version: POSTGRES_12
     tier: db-custom-1-3840
     maintenanceDay: 2
@@ -48,7 +48,7 @@ postgresqlClusters:
 mysqlClusters:
   - name: my-common-mysql
     region: europe-west1
-    zone: europe-west1b
+    zone: europe-west1-b
     version: MYSQL_8_0
     tier: db-custom-1-3840
     maintenanceDay: 2
