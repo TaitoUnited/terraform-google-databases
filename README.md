@@ -71,7 +71,7 @@ Combine with the following modules to get a complete infrastructure defined by Y
 - [Databases](https://registry.terraform.io/modules/TaitoUnited/databases/google)
 - [Storage](https://registry.terraform.io/modules/TaitoUnited/storage/google)
 - [Monitoring](https://registry.terraform.io/modules/TaitoUnited/monitoring/google)
-- [Events](https://registry.terraform.io/modules/TaitoUnited/events/google)
+- [Integrations](https://registry.terraform.io/modules/TaitoUnited/integrations/google)
 - [PostgreSQL privileges](https://registry.terraform.io/modules/TaitoUnited/privileges/postgresql)
 - [MySQL privileges](https://registry.terraform.io/modules/TaitoUnited/privileges/mysql)
 
