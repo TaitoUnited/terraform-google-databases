@@ -21,6 +21,9 @@ module "databases" {
   postgresql_clusters = yamldecode(file("${path.root}/../infra.yaml"))["postgresqlClusters"]
   mysql_clusters      = yamldecode(file("${path.root}/../infra.yaml"))["mysqlClusters"]
   private_network_id  = module.network.database_network_id
+
+  # TODO: move long-term backup implementation from events to here
+  long_term_backup_bucket = "my-backup"
 }
 ```
 
@@ -67,6 +70,7 @@ Combine with the following modules to get a complete infrastructure defined by Y
 - [Admin](https://registry.terraform.io/modules/TaitoUnited/admin/google)
 - [DNS](https://registry.terraform.io/modules/TaitoUnited/dns/google)
 - [Network](https://registry.terraform.io/modules/TaitoUnited/network/google)
+- [Compute](https://registry.terraform.io/modules/TaitoUnited/compute/google)
 - [Kubernetes](https://registry.terraform.io/modules/TaitoUnited/kubernetes/google)
 - [Databases](https://registry.terraform.io/modules/TaitoUnited/databases/google)
 - [Storage](https://registry.terraform.io/modules/TaitoUnited/storage/google)
