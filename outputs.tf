@@ -16,10 +16,10 @@
 
 output "postgres_private_ip_addresses" {
   description = "PostgreSQL private IP addresses"
-  value = google_sql_database_instance.postgres.*.private_ip_address
+  value = values(google_sql_database_instance.postgres).*.private_ip_address
 }
 
 output "mysql_private_ip_addresses" {
   description = "MySQL private IP addresses"
-  value = google_sql_database_instance.mysql.*.private_ip_address
+  value = values(google_sql_database_instance.mysql).*.private_ip_address
 }
