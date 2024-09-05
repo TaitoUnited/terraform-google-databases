@@ -36,6 +36,7 @@ resource "google_sql_database_instance" "postgres" {
       ipv4_enabled    = each.value.publicIpEnabled ? true : false
       private_network = var.private_network_id
       ssl_mode        = "TRUSTED_CLIENT_CERTIFICATE_REQUIRED"
+      require_ssl     = true # TODO: remove this when the google provider is updated
 
       dynamic "authorized_networks" {
         for_each = each.value.authorizedNetworks != null ? each.value.authorizedNetworks : []
