@@ -19,14 +19,20 @@ resource "google_sql_database_instance" "postgres" {
   # depends_on = [google_service_networking_connection.private_vpc_connection]
 
   for_each = {for item in local.postgresqlClusters: item.name => item}
-  name     = each.value.name
 
-  database_version = each.value.version
-  region           = each.value.region
+  name                = each.value.name
+  database_version    = each.value.version
+  region              = each.value.region
+
+  # NOTE: see also the settings.deletion_protection_enabled below
+  deletion_protection = true
 
   settings {
     tier              = each.value.tier
     availability_type = each.value.highAvailabilityEnabled ? "REGIONAL" : "ZONAL"
+
+    # NOTE: see also the deletion_protection above
+    deletion_protection_enabled = true
 
     location_preference {
       zone = each.value.zone
