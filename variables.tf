@@ -64,8 +64,3 @@ variable "private_network_id" {
   default     = ""
   description = "Private network id for databases"
 }
-
-variable "cmek_locations" {
-  type        = list(string)
-  default     = []
-}

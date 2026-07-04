@@ -26,4 +26,10 @@ locals {
     ? var.mysql_clusters
     : []
   )
+
+  cmekLocations = tolist(toset([
+    for database in concat(local.postgresqlClusters, local.mysqlClusters) : database.cmekLocation
+    if database.cmekLocation != null && trimspace(database.cmekLocation) != ""
+  ]))
+
 }

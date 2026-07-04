@@ -22,8 +22,6 @@ module "databases" {
   mysql_clusters      = yamldecode(file("${path.root}/../infra.yaml"))["mysqlClusters"]
   private_network_id  = module.network.database_network_id
 
-  cmek_locations      = ["europe-west1"]
-
   # TODO: move long-term backup implementation from events to here
   long_term_backup_bucket = "my-backup"
 }

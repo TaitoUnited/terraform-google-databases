@@ -20,7 +20,7 @@ resource "google_project_service_identity" "gcp_sa_cloud_sql" {
 }
 
 resource "google_kms_key_ring" "cmek" {
-  for_each = {for location in var.cmek_locations: location => location}
+  for_each = {for location in local.cmekLocations: location => location}
 
   provider = google-beta
   name     = "database-cmek-${each.key}"
@@ -28,7 +28,7 @@ resource "google_kms_key_ring" "cmek" {
 }
 
 resource "google_kms_crypto_key" "cmek_key" {
-  for_each = {for location in var.cmek_locations: location => location}
+  for_each = {for location in local.cmekLocations: location => location}
 
   provider = google-beta
   name     = "database-cmek-${each.key}-key"
@@ -37,7 +37,7 @@ resource "google_kms_crypto_key" "cmek_key" {
 }
 
 resource "google_kms_crypto_key_iam_binding" "crypto_key" {
-  for_each = {for location in var.cmek_locations: location => location}
+  for_each = {for location in local.cmekLocations: location => location}
 
   provider      = google-beta
   crypto_key_id = google_kms_crypto_key.cmek_key[each.key].id
