@@ -23,3 +23,18 @@ output "mysql_private_ip_addresses" {
   description = "MySQL private IP addresses"
   value = values(google_sql_database_instance.mysql).*.private_ip_address
 }
+
+output "postgres_instances" {
+  description = "PostgreSQL instances"
+  value = google_sql_database_instance.postgres
+}
+
+output "mysql_instances" {
+  description = "MySQL instances"
+  value = google_sql_database_instance.mysql
+}
+
+output "cmek_keys" {
+  description = "CMEK keys"
+  value = google_kms_crypto_key.cmek_key
+}

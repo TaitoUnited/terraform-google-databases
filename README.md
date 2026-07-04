@@ -22,6 +22,8 @@ module "databases" {
   mysql_clusters      = yamldecode(file("${path.root}/../infra.yaml"))["mysqlClusters"]
   private_network_id  = module.network.database_network_id
 
+  cmek_locations      = ["europe-west1"]
+
   # TODO: move long-term backup implementation from events to here
   long_term_backup_bucket = "my-backup"
 }
@@ -32,9 +34,12 @@ Example YAML:
 ```
 postgresqlClusters:
   - name: my-common-postgres
+    # Set cmekLocation only if you want cmek to be enabled for this database instance
+    cmekLocation: europe-west1
     region: europe-west1
     zone: europe-west1-b
-    version: POSTGRES_12
+    version: POSTGRES_16
+    edition: ENTERPRISE
     tier: db-custom-1-3840
     maintenanceDay: 2
     maintenanceHour: 2
@@ -50,9 +55,12 @@ postgresqlClusters:
 
 mysqlClusters:
   - name: my-common-mysql
+    # Set cmekLocation only if you want cmek to be enabled for this database instance
+    cmekLocation: europe-west1
     region: europe-west1
     zone: europe-west1-b
     version: MYSQL_8_0
+    edition: ENTERPRISE
     tier: db-custom-1-3840
     maintenanceDay: 2
     maintenanceHour: 2

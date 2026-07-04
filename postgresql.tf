@@ -27,7 +27,10 @@ resource "google_sql_database_instance" "postgres" {
   # NOTE: see also the settings.deletion_protection_enabled below
   deletion_protection = true
 
+  encryption_key_name = each.value.cmekLocation ? google_kms_crypto_key.cmek_key[each.value.cmekLocation].id : null
+
   settings {
+    edition           = each.value.edition
     tier              = each.value.tier
     availability_type = each.value.highAvailabilityEnabled ? "REGIONAL" : "ZONAL"
 
@@ -70,6 +73,12 @@ resource "google_sql_database_instance" "postgres" {
       start_time = each.value.backupStartTime
       point_in_time_recovery_enabled = each.value.pointInTimeRecoveryEnabled
     }
+
+    final_backup_config {
+      enabled        = "true"
+      retention_days = 30
+    }
+
   }
 
   lifecycle {

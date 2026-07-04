@@ -21,6 +21,7 @@ variable "postgresql_clusters" {
     zone = string
     version = string
     tier = string
+    edition = string
     maintenanceDay = number
     maintenanceHour = number
     backupStartTime = string
@@ -39,8 +40,10 @@ variable "mysql_clusters" {
   type = list(object({
     name = string
     region = string
+    cmekLocation = string
     zone = string
     version = string
+    edition = string
     tier = string
     maintenanceDay = number
     maintenanceHour = number
@@ -60,4 +63,9 @@ variable "private_network_id" {
   type        = string
   default     = ""
   description = "Private network id for databases"
+}
+
+variable "cmek_locations" {
+  type        = list(string)
+  default     = []
 }
