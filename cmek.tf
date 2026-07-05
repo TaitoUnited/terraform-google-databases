@@ -34,6 +34,12 @@ resource "google_kms_crypto_key" "cmek_key" {
   name     = "database-cmek-${each.key}-key"
   key_ring = google_kms_key_ring.cmek[each.key].id
   purpose  = "ENCRYPT_DECRYPT"
+
+  rotation_period = "7776000s" # 90 days
+
+  lifecycle {
+    prevent_destroy = true
+  }  
 }
 
 resource "google_kms_crypto_key_iam_binding" "crypto_key" {
