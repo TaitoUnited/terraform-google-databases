@@ -18,6 +18,7 @@ variable "postgresql_clusters" {
   type = list(object({
     name = string
     region = string
+    cmekLocation = string
     zone = string
     version = string
     tier = string
