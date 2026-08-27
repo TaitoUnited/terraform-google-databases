@@ -27,7 +27,7 @@ resource "google_sql_database_instance" "mysql" {
   # NOTE: see also the settings.deletion_protection_enabled below
   deletion_protection = true
 
-  encryption_key_name = each.value.cmekLocation ? google_kms_crypto_key.cmek_key[each.value.cmekLocation].id : null
+  encryption_key_name = each.value.cmekLocation != null && each.value.cmekLocation != "" ? google_kms_crypto_key.cmek_key[each.value.cmekLocation].id : null
 
   settings {
     edition           = each.value.edition
