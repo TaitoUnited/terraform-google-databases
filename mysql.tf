@@ -78,7 +78,7 @@ resource "google_sql_database_instance" "mysql" {
       complexity                  = "COMPLEXITY_DEFAULT"
       reuse_interval              = 5
       disallow_username_substring = "true"
-      password_change_interval    = "60m"
+      password_change_interval    = "600s"
     }
   }
 
