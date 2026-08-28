@@ -71,6 +71,14 @@ resource "google_sql_database_instance" "mysql" {
       enabled        = "true"
       retention_days = 30
     }
+
+    password_validation_policy {
+      enable_password_policy      = true
+      min_length                  = 30
+      complexity                  = true
+      reuse_interval              = 5
+      disallow_username_substring = true
+    }
   }
 
   lifecycle {
