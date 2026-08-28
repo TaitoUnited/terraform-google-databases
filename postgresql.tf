@@ -80,11 +80,12 @@ resource "google_sql_database_instance" "postgres" {
     }
 
     password_validation_policy {
-      enable_password_policy      = true
+      enable_password_policy      = "true"
       min_length                  = 30
-      complexity                  = true
+      complexity                  = "COMPLEXITY_DEFAULT"
       reuse_interval              = 5
-      disallow_username_substring = true
+      disallow_username_substring = "true"
+      password_change_interval    = "60m"
     }
   }
 
