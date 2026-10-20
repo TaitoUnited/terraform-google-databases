@@ -15,6 +15,8 @@
  */
 
 resource "google_project_service_identity" "gcp_sa_cloud_sql" {
+  count    = length(local.cmekLocations) > 0 ? 1 : 0
+
   provider = google-beta
   service  = "sqladmin.googleapis.com"
 }
@@ -50,6 +52,6 @@ resource "google_kms_crypto_key_iam_binding" "crypto_key" {
   role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
 
   members = [
-    "serviceAccount:${google_project_service_identity.gcp_sa_cloud_sql.email}",
+    "serviceAccount:${google_project_service_identity.gcp_sa_cloud_sql[0].email}",
   ]
 }
