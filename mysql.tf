@@ -96,13 +96,13 @@ resource "random_string" "mysql_admin_password" {
 
   keepers = {
     mysql_instance = each.value.name
-    mysql_admin    = each.value.adminUsername
+    mysql_admin    = coalesce(each.value.adminUsername, "mysql")
   }
 }
 
 resource "google_sql_user" "mysql_admin" {
   for_each = {for item in local.mysqlClusters: item.name => item}
-  name     = each.value.adminUsername
+  name     = coalesce(each.value.adminUsername, "mysql")
   host     = "%"
   instance = google_sql_database_instance.mysql[each.key].name
   password = random_string.mysql_admin_password[each.key].result
