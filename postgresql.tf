@@ -18,11 +18,11 @@ resource "google_sql_database_instance" "postgres" {
   # TODO: not required?
   # depends_on = [google_service_networking_connection.private_vpc_connection]
 
-  for_each = {for item in local.postgresqlClusters: item.name => item}
+  for_each = { for item in local.postgresqlClusters : item.name => item }
 
-  name                = each.value.name
-  database_version    = each.value.version
-  region              = each.value.region
+  name             = each.value.name
+  database_version = each.value.version
+  region           = each.value.region
 
   # NOTE: see also the settings.deletion_protection_enabled below
   deletion_protection = true
@@ -57,8 +57,16 @@ resource "google_sql_database_instance" "postgres" {
     dynamic "database_flags" {
       for_each = each.value.flags
       content {
-        name                = database_flags.key
-        value               = database_flags.value
+        name  = database_flags.key
+        value = database_flags.value
+      }
+    }
+
+    dynamic "database_flags" {
+      for_each = each.value.defaultFlagsEnabled ? local.defaultPostgresFlags : {}
+      content {
+        name  = database_flags.key
+        value = database_flags.value
       }
     }
 
@@ -69,8 +77,8 @@ resource "google_sql_database_instance" "postgres" {
     }
 
     backup_configuration {
-      enabled    = "true"
-      start_time = each.value.backupStartTime
+      enabled                        = "true"
+      start_time                     = each.value.backupStartTime
       point_in_time_recovery_enabled = each.value.pointInTimeRecoveryEnabled
     }
 

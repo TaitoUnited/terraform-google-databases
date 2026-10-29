@@ -16,47 +16,49 @@
 
 variable "postgresql_clusters" {
   type = list(object({
-    name = string
-    region = string
-    cmekLocation = optional(string)
-    zone = string
-    version = string
-    tier = string
-    edition = optional(string, "ENTERPRISE")
-    maintenanceDay = optional(number, 2)
-    maintenanceHour = optional(number, 2)
-    backupStartTime = optional(string, "22:00")
+    name                       = string
+    region                     = string
+    cmekLocation               = optional(string)
+    zone                       = string
+    version                    = string
+    tier                       = string
+    edition                    = optional(string, "ENTERPRISE")
+    maintenanceDay             = optional(number, 2)
+    maintenanceHour            = optional(number, 2)
+    backupStartTime            = optional(string, "22:00")
     pointInTimeRecoveryEnabled = optional(bool, true)
-    highAvailabilityEnabled = optional(bool, false)
-    publicIpEnabled = optional(bool, false)
-    authorizedNetworks = optional(list(string), [])
-    flags = optional(map(string), {})
+    highAvailabilityEnabled    = optional(bool, false)
+    publicIpEnabled            = optional(bool, false)
+    authorizedNetworks         = optional(list(string), [])
+    flags                      = optional(map(string), {})
+    defaultFlagsEnabled        = optional(bool, true)
     # adminUsername = optional(string)
   }))
-  default = []
+  default     = []
   description = "Resources as JSON (see README.md). You can read values from a YAML file with yamldecode()."
 }
 
 variable "mysql_clusters" {
   type = list(object({
-    name = string
-    region = string
-    cmekLocation = optional(string)
-    zone = string
-    version = string
-    tier = string
-    edition = optional(string, "ENTERPRISE")
-    maintenanceDay = optional(number, 2)
-    maintenanceHour = optional(number, 2)
-    backupStartTime = optional(string, "22:00")
+    name                       = string
+    region                     = string
+    cmekLocation               = optional(string)
+    zone                       = string
+    version                    = string
+    tier                       = string
+    edition                    = optional(string, "ENTERPRISE")
+    maintenanceDay             = optional(number, 2)
+    maintenanceHour            = optional(number, 2)
+    backupStartTime            = optional(string, "22:00")
     pointInTimeRecoveryEnabled = optional(bool, true)
-    highAvailabilityEnabled = optional(bool, false)
-    publicIpEnabled = optional(bool, false)
-    authorizedNetworks = optional(list(string), [])
+    highAvailabilityEnabled    = optional(bool, false)
+    publicIpEnabled            = optional(bool, false)
+    authorizedNetworks         = optional(list(string), [])
     # flags = optional(map(string), {})
+    # defaultFlagsEnabled = optional(bool, true)
     adminUsername = optional(string)
   }))
-  default = []
+  default     = []
   description = "Resources as JSON (see README.md). You can read values from a YAML file with yamldecode()."
 }
 

@@ -18,11 +18,11 @@ resource "google_sql_database_instance" "mysql" {
   # TODO: not required?
   # depends_on = [google_service_networking_connection.private_vpc_connection]
 
-  for_each = {for item in local.mysqlClusters: item.name => item}
+  for_each = { for item in local.mysqlClusters : item.name => item }
 
-  name                = each.value.name
-  database_version    = each.value.version
-  region              = each.value.region
+  name             = each.value.name
+  database_version = each.value.version
+  region           = each.value.region
 
   # NOTE: see also the settings.deletion_protection_enabled below
   deletion_protection = true
@@ -61,9 +61,9 @@ resource "google_sql_database_instance" "mysql" {
     }
 
     backup_configuration {
-      enabled            = "true"
-      binary_log_enabled = "true"
-      start_time = each.value.backupStartTime
+      enabled                        = "true"
+      binary_log_enabled             = "true"
+      start_time                     = each.value.backupStartTime
       point_in_time_recovery_enabled = each.value.pointInTimeRecoveryEnabled
     }
 
@@ -88,11 +88,11 @@ resource "google_sql_database_instance" "mysql" {
 }
 
 resource "random_string" "mysql_admin_password" {
-  for_each = {for item in local.mysqlClusters: item.name => item}
+  for_each = { for item in local.mysqlClusters : item.name => item }
 
-  length   = 32
-  special  = false
-  upper    = true
+  length  = 32
+  special = false
+  upper   = true
 
   keepers = {
     mysql_instance = each.value.name
@@ -101,7 +101,7 @@ resource "random_string" "mysql_admin_password" {
 }
 
 resource "google_sql_user" "mysql_admin" {
-  for_each = {for item in local.mysqlClusters: item.name => item}
+  for_each = { for item in local.mysqlClusters : item.name => item }
   name     = coalesce(each.value.adminUsername, "mysql")
   host     = "%"
   instance = google_sql_database_instance.mysql[each.key].name

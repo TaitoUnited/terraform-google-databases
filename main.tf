@@ -32,4 +32,13 @@ locals {
     if database.cmekLocation != null && trimspace(database.cmekLocation) != ""
   ]))
 
+  defaultPostgresFlags = {
+    log_disconnections = "on"
+    log_connections    = "on"
+    log_lock_waits     = "on"
+    log_duration       = "on"
+    log_checkpoints    = "on"
+    log_temp_files     = "0"
+    log_statement      = "ddl"
+  }
 }
