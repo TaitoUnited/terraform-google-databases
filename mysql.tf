@@ -63,6 +63,7 @@ resource "google_sql_database_instance" "mysql" {
     backup_configuration {
       enabled                        = "true"
       binary_log_enabled             = "true"
+      location                       = each.value.backupLocation
       start_time                     = each.value.backupStartTime
       point_in_time_recovery_enabled = each.value.pointInTimeRecoveryEnabled
     }

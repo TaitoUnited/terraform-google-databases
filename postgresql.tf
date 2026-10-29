@@ -78,6 +78,7 @@ resource "google_sql_database_instance" "postgres" {
 
     backup_configuration {
       enabled                        = "true"
+      location                       = each.value.backupLocation
       start_time                     = each.value.backupStartTime
       point_in_time_recovery_enabled = each.value.pointInTimeRecoveryEnabled
     }
