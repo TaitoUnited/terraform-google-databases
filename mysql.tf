@@ -73,6 +73,8 @@ resource "google_sql_database_instance" "mysql" {
       retention_days = 30
     }
 
+    retain_backups_on_delete = "true"
+
     password_validation_policy {
       enable_password_policy      = "true"
       min_length                  = 30
